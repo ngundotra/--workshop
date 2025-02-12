@@ -19,7 +19,12 @@ async function main() {
     console.log(`Paying bounty for PR #${process.env.PR_NUMBER}`);
 
     // Get the PR yaml from the bounties folder
-    const bountyYaml = readFileSync(`.bounties/${process.env.PR_NUMBER}.yaml`, "utf8");
+    let bountyYaml: string;
+    try {
+        bountyYaml = readFileSync(`.bounties/${process.env.PR_NUMBER}.yaml`, "utf8");
+    } catch (e) {
+        throw new Error(`Bounty yaml not found for PR #${process.env.PR_NUMBER}`);
+    }
 
     // Parse the bounty yaml
     const bounty = yaml.parse(bountyYaml);
@@ -46,13 +51,14 @@ async function main() {
         lamports: bounty.amount * web3.LAMPORTS_PER_SOL
     }));
     tx.feePayer = walletKp.publicKey;
-    tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+    const latestBlockhash = await connection.getLatestBlockhash();
+    tx.recentBlockhash = latestBlockhash.blockhash;
 
     // Send & confirm the transaction
     const sig = await connection.sendTransaction(tx, [walletKp]);
     await connection.confirmTransaction({
         signature: sig,
-        ...(await connection.getLatestBlockhash())
+        ...latestBlockhash
     }, "confirmed");
     console.log(`Transaction sent: https://explorer.solana.com/tx/${sig}`);
 
