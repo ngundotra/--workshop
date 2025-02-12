@@ -4,6 +4,7 @@ import yaml from "yaml";
 import { readFileSync, writeFileSync } from "fs";
 
 import dotenv from "dotenv";
+import TransactionFactory from "@coral-xyz/anchor/dist/cjs/program/namespace/transaction";
 
 dotenv.config();
 
@@ -58,11 +59,7 @@ async function main() {
     tx.recentBlockhash = latestBlockhash.blockhash;
 
     // Send & confirm the transaction
-    const sig = await connection.sendTransaction(tx, [walletKp]);
-    await connection.confirmTransaction({
-        signature: sig,
-        ...latestBlockhash
-    }, "confirmed");
+    const sig = await web3.sendAndConfirmTransaction(connection, tx, [walletKp], { commitment: 'confirmed' });
     console.log(`Transaction sent: https://explorer.solana.com/tx/${sig}`);
 
     // Write txHash back to yaml & save
