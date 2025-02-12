@@ -1,13 +1,19 @@
-name: Run TypeScript on Merge
+name: Pay Bounty on Merge
 
 on:
   pull_request:
     types: [closed]
     branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull Request Number"
+        required: true
+        type: string
 
 jobs:
   run-script:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -16,12 +22,16 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm ci
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - run: pnpm install
 
       # - run: npm run build # If you need to compile TypeScript
 
-      - run: npx ts-node scripts/payBounty.ts # Directly run TypeScript
+      - run: pnpm ts-node scripts/payBounty.ts # Directly run TypeScript
         env:
           SOLANA_PRIVATE_KEY: ${{ secrets.SOLANA_PRIVATE_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-          PR_NUMBER: ${{ github.event.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
