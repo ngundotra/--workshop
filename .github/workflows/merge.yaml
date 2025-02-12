@@ -35,3 +35,19 @@ jobs:
           SOLANA_PRIVATE_KEY: ${{ secrets.SOLANA_PRIVATE_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch-token: ${{ secrets.GITHUB_TOKEN }}
+          sign-commits: true
+          commit-message: "Pay bounty for PR #${{ github.event.pull_request.number || inputs.pr_number }}"
+          title: "Pay bounty for PR #${{ github.event.pull_request.number || inputs.pr_number }}"
+          body: "Auto-generated PR from daily bounty payment"
+          branch: "bounty-payment-pr-${{ github.event.pull_request.number || inputs.pr_number }}"
+          tags: "bounty-payment"
+          auto-merge: true
+          merge-method: squash
+          base: main
+          maintainer-can-modify: true
+          delete-branch: true
