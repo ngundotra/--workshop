@@ -46,8 +46,6 @@ jobs:
           body: "Auto-generated PR from daily bounty payment"
           branch: "bounty-payment-pr-${{ github.event.pull_request.number || inputs.pr_number }}"
           tags: "bounty-payment"
-          auto-merge: true
-          merge-method: squash
           base: main
           maintainer-can-modify: true
           delete-branch: true

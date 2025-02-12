@@ -4,7 +4,6 @@ import yaml from "yaml";
 import { readFileSync, writeFileSync } from "fs";
 
 import dotenv from "dotenv";
-import TransactionFactory from "@coral-xyz/anchor/dist/cjs/program/namespace/transaction";
 
 dotenv.config();
 
@@ -48,7 +47,7 @@ async function main() {
     // Transfer the bounty amount to the bounty address
     const latestBlockhash = await connection.getLatestBlockhash();
     const tx = new web3.Transaction(latestBlockhash);
-    tx.add(web3.ComputeBudgetProgram.setComputeUnitLimit({ units: 1000 }));
+    tx.add(web3.ComputeBudgetProgram.setComputeUnitLimit({ units: 750 }));
     tx.add(web3.ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10_000 }));
     tx.add(web3.SystemProgram.transfer({
         fromPubkey: walletKp.publicKey,
@@ -60,11 +59,10 @@ async function main() {
 
     // Send & confirm the transaction
     const sig = await connection.sendTransaction(tx, [walletKp]);
-    await connection.confirmTransaction({
-        signature: sig,
-        ...latestBlockhash
-    }, "confirmed");
-    console.log(`Transaction sent: https://explorer.solana.com/tx/${sig}`);
+    console.log(`Transaction sent: ${sig}`);
+    console.log("Confirming");
+    await connection.confirmTransaction({ signature: sig, ...await connection.getLatestBlockhash() }, "confirmed");
+    console.log(`Transaction confirmed: https://explorer.solana.com/tx/${sig}`);
 
     // Write txHash back to yaml & save
     bounty.txHash = sig;
