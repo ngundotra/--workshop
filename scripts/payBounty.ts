@@ -46,20 +46,24 @@ async function main() {
     const walletKp = web3.Keypair.fromSecretKey(bs58.decode(process.env.SOLANA_PRIVATE_KEY!));
 
     // Transfer the bounty amount to the bounty address
-    const tx = new web3.Transaction();
+    const latestBlockhash = await connection.getLatestBlockhash();
+    const tx = new web3.Transaction(latestBlockhash);
     tx.add(web3.ComputeBudgetProgram.setComputeUnitLimit({ units: 1000 }));
-    tx.add(web3.ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10000 }));
+    tx.add(web3.ComputeBudgetProgram.setComputeUnitPrice({ microLamports: 10_000 }));
     tx.add(web3.SystemProgram.transfer({
         fromPubkey: walletKp.publicKey,
         toPubkey: new web3.PublicKey(bounty.address),
         lamports: bounty.amount * web3.LAMPORTS_PER_SOL
     }));
     tx.feePayer = walletKp.publicKey;
-    const latestBlockhash = await connection.getLatestBlockhash();
     tx.recentBlockhash = latestBlockhash.blockhash;
 
     // Send & confirm the transaction
-    const sig = await web3.sendAndConfirmTransaction(connection, tx, [walletKp], { commitment: 'confirmed' });
+    const sig = await connection.sendTransaction(tx, [walletKp]);
+    await connection.confirmTransaction({
+        signature: sig,
+        ...latestBlockhash
+    }, "confirmed");
     console.log(`Transaction sent: https://explorer.solana.com/tx/${sig}`);
 
     // Write txHash back to yaml & save
