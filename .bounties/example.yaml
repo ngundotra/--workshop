@@ -1,0 +1,12 @@
+# Example bounty yaml
+# Title of YAML should be your PR number
+# ie 1.yaml, 2.yaml, etc.
+
+# Set this bounty to an address that will receive the bounty
+address: B9Ds5FLLQK6wPKwb69jC5drLurDqj97zFUVBJA9a7vx8
+
+# Set the amount of SOL to pay out
+amount: 0.001
+# Set the number of days the bounty will be active
+# after which the bounty is no longer valid
+# days: 7
