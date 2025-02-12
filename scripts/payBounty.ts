@@ -45,6 +45,8 @@ async function main() {
         toPubkey: new web3.PublicKey(bounty.address),
         lamports: bounty.amount * web3.LAMPORTS_PER_SOL
     }));
+    tx.feePayer = walletKp.publicKey;
+    tx.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
 
     // Send & confirm the transaction
     const sig = await connection.sendTransaction(tx, [walletKp]);
