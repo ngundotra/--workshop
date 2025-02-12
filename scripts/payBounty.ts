@@ -37,6 +37,9 @@ async function main() {
     if (bounty.amount >= MAX_BOUNTY_AMOUNT) {
         throw new Error(`Bounty amount is too high: ${bounty.amount} SOL`);
     }
+    if (bounty.txHash) {
+        throw new Error(`Bounty already paid out: ${bounty.txHash}`);
+    }
 
     const connection = new web3.Connection(process.env.SOLANA_RPC_URL!);
     const walletKp = web3.Keypair.fromSecretKey(bs58.decode(process.env.SOLANA_PRIVATE_KEY!));
