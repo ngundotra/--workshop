@@ -44,15 +44,14 @@ jobs:
         with:
           branch-token: ${{ secrets.GITHUB_TOKEN }}
           sign-commits: true
-          commit-message: "Pay bounty for PR #${{ github.event.pull_request.number || inputs.pr_number }}"
-          title: "Pay bounty for PR #${{ github.event.pull_request.number || inputs.pr_number }}"
-          body: "Auto-generated PR from daily bounty payment"
+          commit-message: "Record bounty payment for PR #${{ github.event.pull_request.number || inputs.pr_number }}"
+          title: "Record bounty payment for PR #${{ github.event.pull_request.number || inputs.pr_number }}"
+          body: "Auto-generated PR to record bounty payment for PR #${{ github.event.pull_request.number || inputs.pr_number }}"
           branch: "bounty-payment-pr-${{ github.event.pull_request.number || inputs.pr_number }}"
           labels: "bounty-payment"
           base: main
           maintainer-can-modify: true
           delete-branch: true
-          statusCheckContexts: "Verify Bot Author"
 
       # Merge in PR using gh cli
       - name: Merge Pull Request
