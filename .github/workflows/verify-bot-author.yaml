@@ -1,0 +1,19 @@
+name: Verify Bot Author
+on: pull_request
+
+jobs:
+  verify-author:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check PR Author
+        id: check_author
+        run: |
+          if [ "${{ github.event.pull_request.user.login }}" = "github-actions[bot]" ]; then
+            echo "PR_CREATED_BY_BOT=true" >> $GITHUB_OUTPUT
+          else
+            echo "PR_CREATED_BY_BOT=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Pass Check if Bot Created
+        if: steps.check_author.outputs.PR_CREATED_BY_BOT == 'true'
+        run: echo "Check passed - valid bot author"

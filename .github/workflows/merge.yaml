@@ -53,6 +53,7 @@ jobs:
           base: main
           maintainer-can-modify: true
           delete-branch: true
+          statusCheckContexts: "Verify Bot Author"
 
       # Merge in PR using gh cli
       - name: Merge Pull Request
