@@ -16,12 +16,7 @@ jobs:
 
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v42
-        with:
-          separator: " "
-          files: |
-            added: chess/games/**/*.pgn
-            modified: chess/games/**/*.pgn
+        uses: tj-actions/changed-files@v45
 
       - name: Check single file modification
         run: |
