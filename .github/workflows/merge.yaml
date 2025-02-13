@@ -32,15 +32,14 @@ jobs:
 
       - run: pnpm install
 
-      # - run: npm run build # If you need to compile TypeScript
-
-      - run: pnpm ts-node scripts/payBounty.ts # Directly run TypeScript
+      - run: pnpm ts-node scripts/payBounty.ts
         env:
           SOLANA_PRIVATE_KEY: ${{ secrets.SOLANA_PRIVATE_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
           PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
 
       - name: Create Pull Request
+        id: create-pr
         uses: peter-evans/create-pull-request@v7
         with:
           branch-token: ${{ secrets.GITHUB_TOKEN }}
@@ -60,4 +59,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr merge ${{ github.event.pull_request.number || inputs.pr_number }} --merge --admin --repo ${{ github.repository }}
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --merge --admin --repo ${{ github.repository }}
