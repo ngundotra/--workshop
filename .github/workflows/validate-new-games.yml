@@ -25,6 +25,24 @@ jobs:
 
       - name: Check single file modification
         run: |
+          echo "=== Added Files ==="
+          echo "Files: ${{ steps.changed-files.outputs.added_files }}"
+          echo "Contents:"
+          if [ -z "${{ steps.changed-files.outputs.added_files }}" ]; then
+            echo "No added files"
+          else
+            cat ${{ steps.changed-files.outputs.added_files }}
+          fi
+
+          echo -e "\n=== Modified Files ==="
+          echo "Files: ${{ steps.changed-files.outputs.modified_files }}"
+          echo "Contents:"
+          if [ -z "${{ steps.changed-files.outputs.modified_files }}" ]; then
+            echo "No modified files"
+          else
+            cat ${{ steps.changed-files.outputs.modified_files }}
+          fi
+
           added_count=$(echo "${{ steps.changed-files.outputs.added_files }}" | wc -w)
           modified_count=$(echo "${{ steps.changed-files.outputs.modified_files }}" | wc -w)
           total_count=$((added_count + modified_count))
