@@ -53,3 +53,10 @@ jobs:
           base: main
           maintainer-can-modify: true
           delete-branch: true
+
+      # Merge in PR using gh cli
+      - name: Merge Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ github.event.pull_request.number || inputs.pr_number }} --auto --squash

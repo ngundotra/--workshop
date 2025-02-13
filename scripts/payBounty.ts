@@ -70,4 +70,4 @@ async function main() {
     console.log(`Bounty paid out successfully: ${sig}`);
 }
 
-main().catch(console.error);
+main();
