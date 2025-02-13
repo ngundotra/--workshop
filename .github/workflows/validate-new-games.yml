@@ -52,20 +52,23 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
-        run: npm install chess.js @types/node
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - run: pnpm install
 
       - name: Validate new games
         run: |
           # Validate new files
           for file in ${{ steps.changed-files.outputs.added_files }}; do
             echo "Validating $file"
-            ts-node chess/scripts/checkGameById.ts $(basename $file .pgn | cut -d_ -f2)
-            ts-node chess/scripts/validateGames.ts
+            pnpm ts-node chess/scripts/checkGameById.ts $(basename $file .pgn | cut -d_ -f2)
+            pnpm ts-node chess/scripts/validateGames.ts
           done
 
           # Validate modified files without GameID check
           for file in ${{ steps.changed-files.outputs.modified_files }}; do
             echo "Validating modified file $file"
-            ts-node chess/scripts/validateGames.ts
+            pnpm ts-node chess/scripts/validateGames.ts
           done
