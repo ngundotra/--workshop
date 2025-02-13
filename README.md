@@ -21,3 +21,7 @@ Bounties are paid out through a structured process to ensure transparency and fa
 4. **Payment**: Upon approval, the bounty reward is paid out to the contributor. The payment details and method are specified in the bounty file.
 
 5. **Record Keeping**: All transactions and bounty completions are recorded for future reference and transparency.
+
+# Contributions
+
+TODO
