@@ -1,27 +1,176 @@
+```markdown
 # Play Chess With Me
 
-Want to play chess? Here's how:
+![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/natbot-testbot/workshop/merge.yaml?branch=main)
+![Coverage Status](https://img.shields.io/codecov/c/gh/natbot-testbot/workshop)
 
-1. Submit a PR with your next chess move
-2. Include your Solana wallet address in the PR
-3. If I accept your move, I'll send you SOL as a bounty!
+## Table of Contents
 
-Previous bounty payments can be found in the `.bounties` folder.
+- [Project Purpose and Features](#project-purpose-and-features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+  - [Playing a Game](#playing-a-game)
+  - [AI Assistance](#ai-assistance)
+- [Contribution Guidelines](#contribution-guidelines)
+- [License](#license)
 
-## Bounty Payout Process
+## Project Purpose and Features
 
-Bounties are paid out through a structured process to ensure transparency and fairness. The process involves the following steps:
+**Play Chess With Me** is an interactive chess platform that leverages GitHub pull requests to allow contributors to play chess moves. By participating, contributors can enhance their chess skills and earn SOL (Solana's cryptocurrency) as bounties for successful moves.
 
-1. **Bounty Creation**: Bounties are defined in YAML files located in the `.bounties` directory. Each file specifies the task, reward, and criteria for completion.
+### Key Features
 
-2. **Task Completion**: Contributors work on the tasks specified in the bounties. Once a task is completed, it is submitted for review.
+- **Interactive Gameplay**: Submit chess moves via GitHub pull requests.
+- **Automated Bounty System**: Earn SOL rewards for accepted moves.
+- **AI Assistance**: Utilize AI to analyze games and suggest optimal moves.
+- **Move Validation**: Ensure all submitted moves are valid and adhere to chess rules.
+- **Transparency**: All bounty transactions and game histories are recorded for accountability.
 
-3. **Review and Approval**: The submitted work is reviewed by the project maintainers. If the work meets the criteria specified in the bounty, it is approved.
+## Installation
 
-4. **Payment**: Upon approval, the bounty reward is paid out to the contributor. The payment details and method are specified in the bounty file.
+Follow the steps below to set up the project locally.
 
-5. **Record Keeping**: All transactions and bounty completions are recorded for future reference and transparency.
+### Prerequisites
 
-# Contributions
+- **Node.js**: Version 14 or higher
+- **pnpm**: Package manager (preferred)  
+  Install pnpm globally if not already installed:
+  ```bash
+  npm install -g pnpm
+  ```
+- **TypeScript**: Installed as a development dependency
+- **Solana Wallet**: For handling SOL transactions
+- **OpenAI API Key**: Required for AI functionalities
 
-TODO
+### Steps
+
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/natbot-testbot/workshop.git
+   cd workshop
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   pnpm install
+   ```
+
+3. **Set Up Environment Variables**
+
+   Create a `.env` file in the root directory based on the provided `.env.example`:
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Then, populate the `.env` file with your configurations:
+
+   - `SOLANA_PRIVATE_KEY`: Your Solana wallet's private key.
+   - `SOLANA_RPC_URL`: Solana RPC endpoint (e.g., `https://api.mainnet-beta.solana.com`).
+   - `OPENAI_API_KEY`: Your OpenAI API key.
+
+## Configuration
+
+Ensure that all necessary environment variables are correctly set in your `.env` file. Here's an example:
+
+```env
+SOLANA_PRIVATE_KEY=your_solana_private_key
+SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
+OPENAI_API_KEY=your_openai_api_key
+```
+
+**Note**: Never expose your private keys or sensitive information publicly. Always keep your `.env` file secure and consider adding it to `.gitignore`.
+
+## Usage
+
+### Playing a Game
+
+1. **Submit a Pull Request with Your Move**
+
+   - Fork the repository and clone your fork.
+   - Navigate to the `chess/games/` directory and locate the current game's `.pgn` file.
+   - Make your move by editing the `.pgn` file following the [PGN format](https://en.wikipedia.org/wiki/Portable_Game_Notation).
+   - Include your Solana wallet address in the PR description.
+   - Submit the pull request.
+
+2. **Bounty Payout**
+
+   - If your move is accepted and merges into the main branch, the automated workflow will process your bounty.
+   - Your SOL reward will be sent to the provided wallet address.
+   - Transaction details will be recorded in the `.bounties` folder.
+
+### AI Assistance
+
+Leverage AI to analyze your games and receive move suggestions.
+
+1. **Analyze and Suggest Next Move**
+
+   Run the AI assistant script with the game's PGN file:
+
+   ```bash
+   pnpm ts-node chess/scripts/aiChessAssistant.ts chess/games/game_<game_id>.pgn
+   ```
+
+   The script will output the suggested SAN-formatted move based on the current board state.
+
+## Contribution Guidelines
+
+We welcome contributions from the community! To ensure a smooth and efficient collaboration, please follow the guidelines below.
+
+### How to Contribute
+
+1. **Fork the Repository**
+   - Click the "Fork" button at the top-right corner of the repository page.
+
+2. **Clone Your Fork**
+   ```bash
+   git clone https://github.com/your-username/workshop.git
+   cd workshop
+   ```
+
+3. **Create a New Branch**
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+4. **Make Your Changes**
+   - Implement new features, fix bugs, or improve documentation.
+
+5. **Run Tests and Linters**
+   ```bash
+   pnpm lint
+   pnpm run validate-games
+   ```
+
+6. **Commit Your Changes**
+   ```bash
+   git commit -m "Add meaningful commit message"
+   ```
+
+7. **Push to Your Fork**
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+8. **Create a Pull Request**
+   - Navigate to the original repository and click "New pull request".
+   - Provide a clear description of your changes.
+
+### Code of Conduct
+
+Please adhere to the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/) in all interactions.
+
+### Reporting Issues
+
+If you encounter any issues or have suggestions, please open an issue in the [Issues](https://github.com/natbot-testbot/workshop/issues) section of the repository.
+
+## License
+
+This project is licensed under the [Apache License 2.0](LICENSE). You are free to use, modify, and distribute this software in compliance with the license terms.
+
+---
+
+© 2024 [natbot-testbot](https://github.com/natbot-testbot/workshop). All rights reserved.
+```
