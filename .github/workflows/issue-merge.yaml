@@ -1,7 +1,7 @@
 name: Pay Bounty on Issue Close
 
 on:
-  issue:
+  issues:
     types: [closed]
   workflow_dispatch:
     inputs:
