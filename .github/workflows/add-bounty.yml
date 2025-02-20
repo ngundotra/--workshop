@@ -15,7 +15,9 @@ jobs:
       - name: Parse bounty amount
         id: parse-bounty
         run: |
+          echo "github.event.comment.body: ${{ github.event.comment.body }}"
           COMMENT_BODY="${{ github.event.comment.body }}"
+          echo "COMMENT_BODY: $COMMENT_BODY"
           BOUNTY_AMOUNT=$(echo "$COMMENT_BODY" | grep -oE '/bounty\s+[0-9]+(\.[0-9]+)?\s*[A-Z]{3}')
           echo "bounty_amount=${BOUNTY_AMOUNT//\/bounty/}" >> $GITHUB_OUTPUT
 
