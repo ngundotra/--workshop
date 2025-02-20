@@ -21,20 +21,6 @@ jobs:
           BOUNTY_AMOUNT=$(echo "$COMMENT_BODY" | grep -oE '/bounty\s+0\.001' | sed 's/\/bounty\s\+//')
           echo "bounty_amount=${BOUNTY_AMOUNT//\/bounty/}" >> $GITHUB_OUTPUT
 
-      - name: Add bounty label
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const { issue } = context.payload;
-            github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: ${{ github.event.issue.number }},
-              labels: [`bounty: ${process.env.BOUNTY_AMOUNT}`]
-            })
-        env:
-          BOUNTY_AMOUNT: ${{ steps.parse-bounty.outputs.bounty_amount }}
-
       - name: Create/update bounty file
         run: |
           pnpm ts-node scripts/createOrSetBounty.ts \
@@ -62,3 +48,26 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --merge --admin --repo ${{ github.repository }}
+
+      - name: Add bounty label and comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { issue } = context.payload;
+            // Add bounty label
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.issue.number }},
+              labels: [`bounty`]
+            });
+
+            // Add comment about bounty PR
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.issue.number }},
+              body: `✅ Added bounty of ${process.env.BOUNTY_AMOUNT} SOL in PR #${{ steps.create-pr.outputs.pull-request-number }}`
+            });
+        env:
+          BOUNTY_AMOUNT: ${{ steps.parse-bounty.outputs.bounty_amount }}
