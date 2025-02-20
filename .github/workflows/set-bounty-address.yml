@@ -1,0 +1,72 @@
+name: Set Bounty Address
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  set-address:
+    if: contains(github.event.comment.body, '/address') && github.event.comment.user.login == 'ngundotra'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - run: pnpm install
+
+      - name: Parse address
+        id: parse-address
+        run: |
+          COMMENT_BODY="${{ github.event.comment.body }}"
+          ADDRESS=$(echo "$COMMENT_BODY" | grep -oE '[1-9A-HJ-NP-Za-km-z]{32,44}')
+          echo "address=${ADDRESS}" >> $GITHUB_OUTPUT
+          if [ -z "$ADDRESS" ]; then
+            echo "::error::Invalid Solana address format"
+            exit 1
+          fi
+
+      - name: Update address in bounty file
+        run: |
+          pnpm ts-node scripts/createOrSetAddress.ts \
+            --issue ${{ github.event.issue.number }} \
+            --address ${{ steps.parse-address.outputs.address }}
+
+      - name: Create Pull Request
+        id: create-pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch-token: ${{ secrets.GITHUB_TOKEN }}
+          sign-commits: true
+          commit-message: "Set bounty address for Issue #${{ github.event.issue.number }}"
+          title: "Set bounty address for Issue #${{ github.event.issue.number }}"
+          body: "Auto-generated PR to set payout address for Issue #${{ github.event.issue.number }}"
+          branch: "set-address-issue-${{ github.event.issue.number }}"
+          labels: "bounty"
+          base: main
+          maintainer-can-modify: true
+          delete-branch: true
+
+      - name: Merge Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --merge --admin --repo ${{ github.repository }}
+
+      - name: Add address comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.issue.number }},
+              body: `✅ Payment address set to: ${{ steps.parse-address.outputs.address }} (PR #${{ steps.create-pr.outputs.pull-request-number }})`
+            });
