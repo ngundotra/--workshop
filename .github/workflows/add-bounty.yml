@@ -34,3 +34,31 @@ jobs:
             })
         env:
           BOUNTY_AMOUNT: ${{ steps.parse-bounty.outputs.bounty_amount }}
+
+      - name: Create/update bounty file
+        run: |
+          pnpm ts-node scripts/createOrSetBounty.ts \
+            --issue ${{ github.event.issue.number }} \
+            --amount ${{ steps.parse-bounty.outputs.bounty_amount }}
+
+      - name: Create Pull Request
+        id: create-pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch-token: ${{ secrets.GITHUB_TOKEN }}
+          sign-commits: true
+          commit-message: "Add bounty for Issue #${{ github.event.issue.number }}"
+          title: "Add bounty for Issue #${{ github.event.issue.number }}"
+          body: "Auto-generated PR to add bounty for Issue #${{ github.event.issue.number }}"
+          branch: "add-bounty-issue-${{ github.event.issue.number }}"
+          labels: "bounty"
+          base: main
+          maintainer-can-modify: true
+          delete-branch: true
+
+      # Merge in PR using gh cli
+      - name: Merge Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --merge --admin --repo ${{ github.repository }}
