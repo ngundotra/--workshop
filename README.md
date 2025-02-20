@@ -60,7 +60,6 @@ Follow the steps below to set up the project locally.
 3. **Set Up Environment Variables**
 
    Create a `.env` file in the root directory based on the provided `.env.example`:
-
    ```bash
    cp .env.example .env
    ```
@@ -108,11 +107,9 @@ Leverage AI to analyze your games and receive move suggestions.
 1. **Analyze and Suggest Next Move**
 
    Run the AI assistant script with the game's PGN file:
-
    ```bash
    pnpm ts-node chess/scripts/aiChessAssistant.ts chess/games/game_<game_id>.pgn
    ```
-
    The script will output the suggested SAN-formatted move based on the current board state.
 
 ## Contribution Guidelines
