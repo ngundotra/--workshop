@@ -1,0 +1,34 @@
+name: Add Bounty to Issue
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  add-bounty:
+    if: contains(github.event.comment.body, '/bounty') && github.event.comment.user.login == 'ngundotra'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Parse bounty amount
+        id: parse-bounty
+        run: |
+          COMMENT_BODY="${{ github.event.comment.body }}"
+          BOUNTY_AMOUNT=$(echo "$COMMENT_BODY" | grep -oE '/bounty\s+[0-9]+(\.[0-9]+)?\s*[A-Z]{3}')
+          echo "bounty_amount=${BOUNTY_AMOUNT//\/bounty/}" >> $GITHUB_OUTPUT
+
+      - name: Add bounty label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { issue } = context.payload;
+            github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: ${{ github.event.issue.number }},
+              labels: [`bounty: ${process.env.BOUNTY_AMOUNT}`]
+            })
+        env:
+          BOUNTY_AMOUNT: ${{ steps.parse-bounty.outputs.bounty_amount }}
