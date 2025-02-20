@@ -1,0 +1,60 @@
+name: Pay Bounty on Issue Close
+
+on:
+  issue:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Issue Number"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  run-script:
+    if: github.event.issue.state == 'closed' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - run: pnpm install
+
+      - run: pnpm ts-node scripts/payBounty.ts
+        env:
+          SOLANA_PRIVATE_KEY: ${{ secrets.SOLANA_PRIVATE_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          PR_NUMBER: ${{ github.event.issue.number || inputs.issue_number }}
+
+      - name: Create Pull Request
+        id: create-pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch-token: ${{ secrets.GITHUB_TOKEN }}
+          sign-commits: true
+          commit-message: "Record bounty payment for Issue #${{ github.event.issue.number || inputs.issue_number }}"
+          title: "Record bounty payment for Issue #${{ github.event.issue.number || inputs.issue_number }}"
+          body: "Auto-generated PR to record bounty payment for Issue #${{ github.event.issue.number || inputs.issue_number }}"
+          branch: "bounty-payment-issue-${{ github.event.issue.number || inputs.issue_number }}"
+          labels: "bounty-payment"
+          base: main
+          maintainer-can-modify: true
+          delete-branch: true
+
+      # Merge in PR using gh cli
+      - name: Merge Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge ${{ steps.create-pr.outputs.pull-request-number }} --merge --admin --repo ${{ github.repository }}
