@@ -9,42 +9,57 @@
 
 - [Project Purpose and Features](#project-purpose-and-features)
 - [Installation](#installation)
-- [Configuration](#configuration)
+  - [Prerequisites](#prerequisites)
+  - [Installation Steps](#installation-steps)
 - [Usage](#usage)
   - [Playing a Game](#playing-a-game)
   - [AI Assistance](#ai-assistance)
 - [Contribution Guidelines](#contribution-guidelines)
+  - [How to Contribute](#how-to-contribute)
+  - [Code of Conduct](#code-of-conduct)
+  - [Reporting Issues](#reporting-issues)
 - [License](#license)
 
 ## Project Purpose and Features
 
-**NatBot Workshop** is an interactive chess platform integrated with GitHub workflows, enabling contributors to play chess games, earn SOL (Solana's cryptocurrency) as bounties, and utilize AI assistance for move suggestions. This project leverages GitHub pull requests and issues to manage gameplay, bounty distribution, and game validations, fostering a collaborative and engaging environment for chess enthusiasts and developers alike.
+**NatBot Workshop** is an innovative interactive chess platform seamlessly integrated with GitHub workflows. It allows contributors to engage in chess games, earn SOL (Solana's cryptocurrency) as bounties, and leverage AI assistance for move suggestions. By utilizing GitHub pull requests and issues, the project manages gameplay, bounty distribution, and game validations, creating a collaborative and engaging environment for both chess enthusiasts and developers.
 
 ### Key Features
 
-- **Interactive Gameplay**: Engage in chess games by submitting moves via GitHub pull requests.
+- **Interactive Gameplay**: Play chess games by submitting moves via GitHub pull requests.
 - **Automated Bounty System**: Earn SOL rewards for successful and validated moves.
-- **AI Assistance**: Utilize AI to analyze games and receive optimal move suggestions.
-- **Move Validation**: Ensure all submitted moves comply with standard chess rules.
+- **AI Assistance**: Use AI to analyze games and receive optimal move suggestions.
+- **Move Validation**: Ensure all submitted moves adhere to standard chess rules.
 - **Transparency**: Maintain accountability through recorded bounty transactions and game histories.
-- **Automated Workflows**: Streamline processes with GitHub Actions for adding bounties, validating games, and paying out rewards.
+- **Automated Workflows**: Streamline processes with GitHub Actions for adding bounties, validating games, and distributing rewards.
 
 ## Installation
 
-Follow the steps below to set up the project locally:
+Follow the steps below to set up the NatBot Workshop project locally.
 
 ### Prerequisites
 
-- **Node.js**: Version 14 or higher
-- **pnpm**: Preferred package manager
+Before installing, ensure you have the following installed on your machine:
+
+- **Node.js**: Version 14 or higher  
+  [Download Node.js](https://nodejs.org/)
+
+- **pnpm**: Preferred package manager  
+  Install via npm:
   ```bash
   npm install -g pnpm
   ```
-- **TypeScript**: Installed as a development dependency
-- **Solana Wallet**: For handling SOL transactions
-- **OpenAI API Key**: Required for AI functionalities
 
-### Steps
+- **TypeScript**: Installed as a development dependency  
+  This will be handled during installation.
+
+- **Solana Wallet**: For handling SOL transactions  
+  [Create a Solana Wallet](https://solana.com/)
+
+- **OpenAI API Key**: Required for AI functionalities  
+  [Obtain an OpenAI API Key](https://platform.openai.com/signup)
+
+### Installation Steps
 
 1. **Clone the Repository**
    ```bash
@@ -71,49 +86,39 @@ Follow the steps below to set up the project locally:
    OPENAI_API_KEY=your_openai_api_key
    ```
 
-   **Note**: Never expose your private keys or sensitive information publicly. Ensure your `.env` file is secure and added to `.gitignore`.
-
-## Configuration
-
-Ensure all necessary environment variables are correctly set in your `.env` file:
-
-```env
-SOLANA_PRIVATE_KEY=your_solana_private_key
-SOLANA_RPC_URL=https://api.mainnet-beta.solana.com
-OPENAI_API_KEY=your_openai_api_key
-```
-
-### Understanding the Configuration Files
-
-- **package.json**: Defines project dependencies, scripts, and package information.
-- **tsconfig.json**: TypeScript configuration file specifying compiler options.
-- **.prettierignore**: Specifies files and directories to ignore during code formatting with Prettier.
-- **.github/workflows/**: Contains GitHub Actions workflows for automating tasks like adding bounties, validating games, and paying out rewards.
-- **chess/games/**: Directory storing PGN files of ongoing and completed chess games.
-- **chess/scripts/**: Contains TypeScript scripts for game management, AI assistance, and bounty handling.
-- **.bounties/**: Stores YAML files detailing bounty configurations for specific issues or pull requests.
+   **Important**: Never expose your private keys or sensitive information publicly. Ensure your `.env` file is secure and added to `.gitignore`.
 
 ## Usage
 
 ### Playing a Game
 
+Engage in a chess game by submitting your moves through GitHub pull requests.
+
 1. **Submit a Pull Request with Your Move**
 
-   - Fork the repository and clone your fork:
+   - **Fork the Repository and Clone Your Fork**
      ```bash
      git clone https://github.com/your-username/workshop.git
      cd workshop
      ```
-   - Navigate to the `chess/games/` directory and locate the current game's `.pgn` file.
-   - Make your move by editing the `.pgn` file following the [PGN format](https://en.wikipedia.org/wiki/Portable_Game_Notation).
-   - Include your Solana wallet address in the PR description.
-   - Submit the pull request.
+
+   - **Navigate to the Current Game's PGN File**
+     Locate the current game's `.pgn` file in the `chess/games/` directory.
+
+   - **Make Your Move**
+     Edit the `.pgn` file following the [PGN format](https://en.wikipedia.org/wiki/Portable_Game_Notation).
+
+   - **Include Your Solana Wallet Address**
+     Add your Solana wallet address in the PR description.
+
+   - **Submit the Pull Request**
+     Push your changes and create a pull request to the main repository.
 
 2. **Bounty Payout**
 
-   - If your move is accepted and merged into the main branch, the automated workflow will process your bounty.
-   - Your SOL reward will be sent to the provided wallet address.
-   - Transaction details will be recorded in the `.bounties` folder.
+   - Once your move is accepted and merged, the automated workflow processes your bounty.
+   - Your SOL reward is sent to the provided wallet address.
+   - Transaction details are recorded in the `.bounties` folder.
 
 ### AI Assistance
 
@@ -125,7 +130,7 @@ Leverage AI to analyze your games and receive move suggestions.
    ```bash
    pnpm ts-node chess/scripts/aiChessAssistant.ts chess/games/game_<game_id>.pgn
    ```
-   The script will output the suggested SAN-formatted move based on the current board state.
+   The script outputs the suggested SAN-formatted move based on the current board state.
 
 ## Contribution Guidelines
 
