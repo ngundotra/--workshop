@@ -1,9 +1,10 @@
 ```markdown
-# NatBot Workshop
+# Ngundotra Workshop
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/natbot-testbot/workshop/merge.yaml?branch=main)
-![Coverage Status](https://img.shields.io/codecov/c/gh/natbot-testbot/workshop)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/ngundotra/workshop/add-bounty.yml?branch=main)
+![Coverage Status](https://img.shields.io/codecov/c/gh/ngundotra/workshop)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 ## Table of Contents
 
@@ -18,16 +19,16 @@
 
 ## Project Purpose and Features
 
-**NatBot Workshop** is an interactive chess platform integrated with GitHub workflows, enabling contributors to play chess games, earn SOL (Solana's cryptocurrency) as bounties, and utilize AI assistance for move suggestions. This project leverages GitHub pull requests and issues to manage gameplay, bounty distribution, and game validations, fostering a collaborative and engaging environment for chess enthusiasts and developers alike.
+**Ngundotra Workshop** is an innovative platform that integrates interactive chess gameplay with GitHub workflows. It allows contributors to engage in chess matches, earn SOL (Solana's cryptocurrency) as bounties for their moves, and utilize AI assistance for strategic suggestions. This project leverages GitHub's pull requests and issues to manage game progression, bounty distribution, and validation, fostering a collaborative and rewarding environment for chess enthusiasts and developers alike.
 
 ### Key Features
 
-- **Interactive Gameplay**: Engage in chess games by submitting moves via GitHub pull requests.
-- **Automated Bounty System**: Earn SOL rewards for successful and validated moves.
-- **AI Assistance**: Utilize AI to analyze games and receive optimal move suggestions.
-- **Move Validation**: Ensure all submitted moves comply with standard chess rules.
-- **Transparency**: Maintain accountability through recorded bounty transactions and game histories.
-- **Automated Workflows**: Streamline processes with GitHub Actions for adding bounties, validating games, and paying out rewards.
+- **Interactive Gameplay**: Participate in chess games by submitting moves via GitHub pull requests.
+- **Automated Bounty System**: Earn SOL rewards for valid and successful moves.
+- **AI Assistance**: Access AI-generated move suggestions to enhance your gameplay.
+- **Move Validation**: Ensure all submitted moves adhere to standard chess rules.
+- **Transparency**: Maintain clear records of bounty transactions and game histories.
+- **Automated Workflows**: Utilize GitHub Actions to streamline processes like adding bounties, validating games, and distributing rewards.
 
 ## Installation
 
@@ -48,7 +49,7 @@ Follow the steps below to set up the project locally:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/natbot-testbot/workshop.git
+   git clone https://github.com/ngundotra/workshop.git
    cd workshop
    ```
 
@@ -85,13 +86,14 @@ OPENAI_API_KEY=your_openai_api_key
 
 ### Understanding the Configuration Files
 
-- **package.json**: Defines project dependencies, scripts, and package information.
-- **tsconfig.json**: TypeScript configuration file specifying compiler options.
-- **.prettierignore**: Specifies files and directories to ignore during code formatting with Prettier.
-- **.github/workflows/**: Contains GitHub Actions workflows for automating tasks like adding bounties, validating games, and paying out rewards.
-- **chess/games/**: Directory storing PGN files of ongoing and completed chess games.
-- **chess/scripts/**: Contains TypeScript scripts for game management, AI assistance, and bounty handling.
-- **.bounties/**: Stores YAML files detailing bounty configurations for specific issues or pull requests.
+- **`package.json`**: Defines project dependencies, scripts, and package information.
+- **`tsconfig.json`**: TypeScript configuration file specifying compiler options.
+- **`.prettierignore`**: Specifies files and directories to ignore during code formatting with Prettier.
+- **`.github/workflows/`**: Contains GitHub Actions workflows for automating tasks like adding bounties, validating games, and paying out rewards.
+- **`chess/games/`**: Directory storing PGN files of ongoing and completed chess games.
+- **`chess/scripts/`**: Contains TypeScript scripts for game management, AI assistance, and bounty handling.
+- **`scripts/`**: Additional scripts for managing bounties and payments.
+- **`.bounties/`**: Stores YAML files detailing bounty configurations for specific issues or pull requests.
 
 ## Usage
 
@@ -176,7 +178,7 @@ Please adhere to the [Contributor Covenant Code of Conduct](https://www.contribu
 
 ### Reporting Issues
 
-If you encounter any issues or have suggestions, please open an issue in the [Issues](https://github.com/natbot-testbot/workshop/issues) section of the repository.
+If you encounter any issues or have suggestions, please open an issue in the [Issues](https://github.com/ngundotra/workshop/issues) section of the repository.
 
 ## License
 
@@ -184,5 +186,5 @@ This project is licensed under the [Apache License 2.0](LICENSE). You are free t
 
 ---
 
-© 2024 [NatBot TestBot](https://github.com/natbot-testbot/workshop). All rights reserved.
+© 2024 [Ngundotra Workshop](https://github.com/ngundotra/workshop). All rights reserved.
 ```
