@@ -8,12 +8,20 @@
 ## Table of Contents
 
 - [Project Purpose and Features](#project-purpose-and-features)
+  - [Key Features](#key-features)
 - [Installation](#installation)
+  - [Prerequisites](#prerequisites)
+  - [Steps](#steps)
 - [Configuration](#configuration)
+  - [Environment Variables](#environment-variables)
+  - [Understanding the Configuration Files](#understanding-the-configuration-files)
 - [Usage](#usage)
   - [Playing a Game](#playing-a-game)
   - [AI Assistance](#ai-assistance)
 - [Contribution Guidelines](#contribution-guidelines)
+  - [How to Contribute](#how-to-contribute)
+  - [Code of Conduct](#code-of-conduct)
+  - [Reporting Issues](#reporting-issues)
 - [License](#license)
 
 ## Project Purpose and Features
@@ -31,7 +39,7 @@
 
 ## Installation
 
-Follow the steps below to set up the project locally:
+Follow the steps below to set up the project locally.
 
 ### Prerequisites
 
@@ -85,13 +93,13 @@ OPENAI_API_KEY=your_openai_api_key
 
 ### Understanding the Configuration Files
 
-- **package.json**: Defines project dependencies, scripts, and package information.
-- **tsconfig.json**: TypeScript configuration file specifying compiler options.
-- **.prettierignore**: Specifies files and directories to ignore during code formatting with Prettier.
-- **.github/workflows/**: Contains GitHub Actions workflows for automating tasks like adding bounties, validating games, and paying out rewards.
-- **chess/games/**: Directory storing PGN files of ongoing and completed chess games.
-- **chess/scripts/**: Contains TypeScript scripts for game management, AI assistance, and bounty handling.
-- **.bounties/**: Stores YAML files detailing bounty configurations for specific issues or pull requests.
+- **`package.json`**: Defines project dependencies, scripts, and package information.
+- **`tsconfig.json`**: TypeScript configuration file specifying compiler options.
+- **`.prettierignore`**: Specifies files and directories to ignore during code formatting with Prettier.
+- **`.github/workflows/`**: Contains GitHub Actions workflows for automating tasks like adding bounties, validating games, and paying out rewards.
+- **`chess/games/`**: Directory storing PGN files of ongoing and completed chess games.
+- **`chess/scripts/`**: Contains TypeScript scripts for game management, AI assistance, and bounty handling.
+- **`.bounties/`**: Stores YAML files detailing bounty configurations for specific issues or pull requests.
 
 ## Usage
 
@@ -129,7 +137,7 @@ Leverage AI to analyze your games and receive move suggestions.
 
 ## Contribution Guidelines
 
-We welcome contributions from the community! To ensure a smooth and efficient collaboration, please follow the guidelines below.
+We welcome contributions from the community! To ensure smooth and efficient collaboration, please follow the guidelines below.
 
 ### How to Contribute
 
